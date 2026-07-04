@@ -1,0 +1,28 @@
+{
+  "name": "cse340-web-backend",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/bavekuno/cse340-web-backend#readme",
+  "bugs": {
+    "url": "https://github.com/bavekuno/cse340-web-backend/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bavekuno/cse340-web-backend.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "ejs": "^6.0.1",
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}
