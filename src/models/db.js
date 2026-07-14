@@ -11,18 +11,30 @@ import { Pool } from 'pg';
  * The connection string format is:
  * postgresql://username:password@host:port/database
  */
+// DB_URL keeps local development compatible; DATABASE_URL is Render's standard
+// name for a linked Postgres database.
+const connectionString = process.env.DATABASE_URL || process.env.DB_URL;
+
+if (!connectionString) {
+    throw new Error('Database connection string is missing. Set DATABASE_URL or DB_URL.');
+}
+
+// The existing local database is configured for SSL. A Render DATABASE_URL
+// carries its own connection settings (including sslmode when required).
 const pool = new Pool({
-    connectionString: process.env.DB_URL,
-    ssl: true
+    connectionString,
+    ...(process.env.DATABASE_URL ? {} : { ssl: true })
 });
 
 /**
  * Common SSL Issue:
  *
- * You may encounter SSL connection errors depending on your operating system, Node.js
- * version, or PostgreSQL server settings. If you have confirmed your credentials are
- * correct but still see SSL errors, try updating the 'ssl' property in the Pool
- * configuration above to:
+ * If an externally hosted database requires TLS and its URL does not already set it,
+ * add `?sslmode=require` to DATABASE_URL. If its certificate cannot be verified,
+ * use the hosting provider's recommended TLS configuration instead of disabling
+ * certificate verification globally.
+ *
+ * Some providers document this alternative setting:
  *
  * ssl: {
  *     rejectUnauthorized: false

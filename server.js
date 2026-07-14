@@ -64,6 +64,13 @@ app.get('/categories', async (req, res) => {
     res.render('categories', { title, categories });
 });
 
+// Keep the underlying error in the Render logs while returning a safe response
+// to visitors. This makes database configuration failures diagnosable.
+app.use((error, req, res, next) => {
+    console.error(`Request failed: ${req.method} ${req.originalUrl}`, error);
+    res.status(500).send('Internal Server Error');
+});
+
 app.listen(PORT, async () => {
     try {
         await testConnection();
