@@ -9,6 +9,8 @@ import { getAllOrganizations } from './src/models/organizations.js';
 
 import { getAllProjects } from './src/models/projects.js';
 
+import { getAllCategories } from './src/models/categories.js';
+
 // Define the application environment
 const NODE_ENV = process.env.NODE_ENV?.toLowerCase() || 'production';
 
@@ -57,8 +59,9 @@ app.get('/projects', async (req, res) => {
 });
 
 app.get('/categories', async (req, res) => {
+    const categories = await getAllCategories();
     const title = 'Categories';
-    res.render('categories', { title });
+    res.render('categories', { title, categories });
 });
 
 app.listen(PORT, async () => {

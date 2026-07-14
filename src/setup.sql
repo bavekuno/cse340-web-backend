@@ -1,4 +1,4 @@
-#comments :creating the organization table and inserting sample data
+/*comments :creating the organization table and inserting sample data*/
 CREATE TABLE organization (
     organization_id SERIAL PRIMARY KEY,
     name VARCHAR(50) NOT NULL,
@@ -17,7 +17,7 @@ VALUES
 SELECT * FROM organization;
 
 
-#comments :creating the projects table and inserting sample data
+/*comments :creating the projects table and inserting sample data*/
 CREATE TABLE projects (
     project_id SERIAL PRIMARY KEY,
     organization_id INT,
@@ -50,3 +50,102 @@ VALUES
 (3, 'Kindness in Action Week', 'Host a week of daily service projects including blood drives, clothing donations, literacy tutoring, park beautification, and care package assembly.', 'Charity Grace Community Park', '04-11-2023');
  
 SELECT * FROM projects;
+
+
+/*  Create Categories Table */
+
+CREATE TABLE IF NOT EXISTS categories (
+    category_id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL UNIQUE,
+    CONSTRAINT chk_category_name
+        CHECK (TRIM(name) <> '')
+);
+
+CREATE TABLE IF NOT EXISTS project_categories (
+    project_id INTEGER NOT NULL,
+    category_id INTEGER NOT NULL,
+
+    PRIMARY KEY (project_id, category_id),
+
+    CONSTRAINT fk_project
+        FOREIGN KEY (project_id)
+        REFERENCES projects(project_id)
+        ON DELETE CASCADE,
+
+    CONSTRAINT fk_category
+        FOREIGN KEY (category_id)
+        REFERENCES categories(category_id)
+        ON DELETE CASCADE
+);
+
+INSERT INTO categories (name)
+VALUES
+    ('Community Cleanup'),
+    ('Housing and Construction'),
+    ('Environmental Sustainability'),
+    ('Food Security'),
+    ('Education and Youth'),
+    ('Senior Support'),
+    ('Disaster Relief'),
+    ('Community Care')
+ON CONFLICT (name) DO NOTHING;
+
+SELECT project_id, title
+FROM projects
+ORDER BY project_id;
+
+INSERT INTO project_categories (project_id, category_id)
+
+SELECT
+    p.project_id,
+    c.category_id
+FROM projects p
+
+JOIN (
+    VALUES
+        ('Street Sweeping', 'Community Cleanup'),
+        ('Home Repair for Seniors', 'Housing and Construction'),
+        ('Home Repair for Seniors', 'Senior Support'),
+        ('Community Playground Build', 'Housing and Construction'),
+        ('Community Playground Build', 'Education and Youth'),
+        ('Affordable Housing Renovation', 'Housing and Construction'),
+        ('School Improvement Weekend', 'Education and Youth'),
+        ('School Improvement Weekend', 'Housing and Construction'),
+        ('Disaster Recovery Assistance', 'Disaster Relief'),
+        ('Disaster Recovery Assistance', 'Housing and Construction'),
+        ('Community Garden Initiative', 'Environmental Sustainability'),
+        ('Community Garden Initiative', 'Food Security'),
+        ('Food Bank Harvest Days', 'Food Security'),
+        ('Tree Planting and Urban Greening', 'Environmental Sustainability'),
+        ('Youth Agriculture Education Program', 'Education and Youth'),
+        ('Youth Agriculture Education Program', 'Environmental Sustainability'),
+        ('Pollinator Habitat Restoration', 'Environmental Sustainability'),
+        ('Neighborhood Clean-Up Campaign', 'Community Cleanup'),
+        ('Senior Companion Program', 'Senior Support'),
+        ('School Supply Drive', 'Education and Youth'),
+        ('Community Meal Service', 'Food Security'),
+        ('Community Meal Service', 'Community Care'),
+        ('Kindness in Action Week', 'Community Care')
+) AS assignments(project_title, category_name)
+
+ON p.title = assignments.project_title
+
+JOIN categories c
+ON c.name = assignments.category_name
+
+ON CONFLICT (project_id, category_id) DO NOTHING;
+
+SELECT
+    p.project_id,
+    p.title,
+    STRING_AGG(c.name, ', ' ORDER BY c.name) AS categories
+FROM projects p
+LEFT JOIN project_categories pc
+    ON p.project_id = pc.project_id
+LEFT JOIN categories c
+    ON pc.category_id = c.category_id
+GROUP BY
+    p.project_id,
+    p.title
+ORDER BY
+    p.project_id;
