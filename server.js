@@ -1,15 +1,8 @@
 import express from 'express';
-
-import { testConnection } from './src/models/db.js';
-
 import { fileURLToPath } from 'url';
 import path from 'path';
-
-import { getAllOrganizations } from './src/models/organizations.js';
-
-import { getAllProjects } from './src/models/projects.js';
-
-import { getAllCategories } from './src/models/categories.js';
+import { testConnection } from './src/models/db.js';
+import router from './src/routes.js';
 
 // Define the application environment
 const NODE_ENV = process.env.NODE_ENV?.toLowerCase() || 'production';
@@ -21,7 +14,6 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-
 
 /**
   * Configure Express middleware
@@ -50,41 +42,8 @@ app.use((req, res, next) => {
     next();
 });
 
-
-/**
- * Routes
- */
-app.get('/', async (req, res) => {
-    const title = 'Home';
-    res.render('home', { title });
-});
-
-app.get('/organizations', async (req, res) => {
-    const organizations = await getAllOrganizations();
-    console.log(organizations);
-
-    const title = 'Our Partner Organizations';
-    res.render('organizations', { title, organizations });
-});
-
-app.get('/projects', async (req, res) => {
-    const projects = await getAllProjects();
-    const title = 'Upcoming Service Projects';
-    res.render('projects', { title, projects });
-});
-
-app.get('/categories', async (req, res) => {
-    const categories = await getAllCategories();
-    const title = 'Categories';
-    res.render('categories', { title, categories });
-});
-
-// Test route for 500 errors
-app.get('/test-error', (req, res, next) => {
-    const err = new Error('This is a test error');
-    err.status = 500;
-    next(err);
-});
+// Use the imported router to handle routes
+app.use(router);
 
 // Catch-all route for 404 errors
 app.use((req, res, next) => {
@@ -112,13 +71,6 @@ app.use((err, req, res, next) => {
 
     // Render the appropriate error template
     res.status(status).render(`errors/${template}`, context);
-});
-
-// Keep the underlying error in the Render logs while returning a safe response
-// to visitors. This makes database configuration failures diagnosable.
-app.use((error, req, res, next) => {
-    console.error(`Request failed: ${req.method} ${req.originalUrl}`, error);
-    res.status(500).send('Internal Server Error');
 });
 
 app.listen(PORT, async () => {
