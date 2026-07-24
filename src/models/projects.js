@@ -12,7 +12,7 @@ const getUpcomingProjects = async (number_of_projects) => {
             p.organization_id,
             o.name AS organization_name
         FROM public.projects p
-        INNER JOIN public.organizations o
+        INNER JOIN public.organization o
             ON p.organization_id = o.organization_id
         WHERE p.date >= CURRENT_DATE
         ORDER BY p.date ASC
@@ -36,7 +36,7 @@ const getProjectDetails = async (id) => {
             p.organization_id,
             o.name AS organization_name
         FROM public.projects p
-        JOIN public.organizations o
+        JOIN public.organization o
             ON p.organization_id = o.organization_id
         WHERE p.project_id = $1;
     `;
@@ -65,14 +65,33 @@ const getProjectsByOrganizationId = async (organization_id) => {
 };
 
 
+const getCategoriesByProjectId = async (projectId) => {
+
+    const query = `
+        SELECT
+            c.category_id,
+            c.name
+        FROM categories c
+        INNER JOIN project_categories pc
+            ON c.category_id = pc.category_id
+        WHERE pc.project_id = $1
+        ORDER BY c.name;
+    `;
+
+    const result = await db.query(query, [projectId]);
+
+    return result.rows;
+
+};
+
 // Export the model functions
 
 
 export {
-   
+
     getUpcomingProjects,
-    getProjectDetails, 
-    getProjectsByOrganizationId
+    getProjectDetails,
+    getProjectsByOrganizationId,
+    getCategoriesByProjectId
+
 };
-
-

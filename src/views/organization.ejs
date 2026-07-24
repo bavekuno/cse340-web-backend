@@ -1,0 +1,49 @@
+<%- include('partials/header') %>
+
+    <main>
+        <h1>
+            <%= title %>
+        </h1>
+
+        <h2>
+            <%= organizationDetails.name %>
+        </h2>
+
+        <p>
+            <strong>Description:</strong>
+            <%= organizationDetails.description %>
+        </p>
+
+        <p>
+            <strong>Location:</strong>
+            <%= organizationDetails.location %>
+        </p>
+
+        <p>
+            <strong>Phone:</strong>
+            <%= organizationDetails.phone %>
+        </p>
+
+        <p>
+            <strong>Email:</strong>
+            <a href="mailto:<%= organizationDetails.email %>"><%= organizationDetails.email %></a>
+        </p>
+
+        <h3>Service Projects</h3>
+
+        <% if (projects.length === 0) { %>
+            <p>No service projects found for this organization.</p>
+        <% } else { %>
+            <ul>
+                <% projects.forEach(project => { %>
+                    <li>
+                        <a href="/project/<%= project.project_id %>">
+                            <%= project.title %>
+                        </a>
+                    </li>
+                <% }) %>
+            </ul>
+        <% } %>
+    </main>
+
+<%- include('partials/footer') %>
