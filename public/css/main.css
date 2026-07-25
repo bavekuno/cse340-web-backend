@@ -147,6 +147,23 @@ footer {
     border-top: 1px solid var(--border)
 }
 
+.org-header {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    margin-bottom: 1.5rem
+}
+
+.org-logo {
+    width: 96px;
+    height: 96px;
+    object-fit: contain;
+    border-radius: var(--radius);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: .25rem
+}
+
 @media(prefers-reduced-motion:reduce) {
     * {
         scroll-behavior: auto !important;

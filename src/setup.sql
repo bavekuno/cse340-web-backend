@@ -30,9 +30,9 @@ CREATE TABLE projects (
 
 INSERT INTO projects (organization_id, title, description, location, date)
 VALUES
-(2, 'Street Sweeping', 'Help sweep the streets of downtown', 'Central Park', '01-01-2020'),
+(2, 'Street Sweeping', 'Help sweep the streets of downtown', 'Central Park', '08-01-2026'),
 (1, 'Home Repair for Seniors', 'Organize volunteer teams to perform minor home repairs, install safety features, and improve accessibility for elderly homeowners.', 'Shady Acres retirement home', '04-11-2023'),
-(1, 'Community Playground Build', 'Partner with local schools or parks to design and construct a safe, inclusive playground for children.', 'Grace Charity Park', '04-11-2023'),
+(1, 'Community Playground Build', 'Partner with local schools or parks to design and construct a safe, inclusive playground for children.', 'Grace Charity Park', '09-15-2026'),
 (1, 'Affordable Housing Renovation', 'Renovate vacant or aging homes for low-income families, veterans, or individuals transitioning out of homelessness.', 'Corner of 6th and Main', '04-11-2023'),
 (1, 'School Improvement Weekend', 'Repair classrooms, paint buildings, build outdoor learning spaces, and improve school facilities before the new school year.', 'Albert Elementary School', '04-11-2023'),
 (1, 'Disaster Recovery Assistance', 'Mobilize volunteers to help rebuild homes and community facilities after storms, floods, or wildfires.', '223 Wingsley Avenue', '04-11-2023'),
@@ -40,7 +40,7 @@ VALUES
 (2, 'Community Garden Initiative', 'Create and maintain community gardens that provide fresh produce and educational opportunities for local residents.', 'Viridian Community Park', '04-11-2023'),
 (2, 'Food Bank Harvest Days', 'Grow and donate fresh fruits and vegetables to local food banks, shelters, and soup kitchens.', '254 Bishops Muse', '04-11-2023'),
 (2, 'Tree Planting and Urban Greening', 'Organize neighborhood tree-planting events to improve air quality and beautify public spaces.', '1011 Central Ave', '04-11-2023'),
-(2, 'Youth Agriculture Education Program', 'Teach children and teens about sustainable farming, gardening, composting, and healthy eating through hands-on workshops.', 'Albert Elementary School', '04-11-2023'),
+(2, 'Youth Agriculture Education Program', 'Teach children and teens about sustainable farming, gardening, composting, and healthy eating through hands-on workshops.', 'Albert Elementary School', '10-20-2026'),
 (2, 'Pollinator Habitat Restoration', 'Plant native flowers and establish habitats that support bees, butterflies, and other important pollinators.', 'Bumblebee Sanctuary', '04-11-2023'),
  
 (3, 'Neighborhood Clean-Up Campaign', 'Coordinate volunteers to clean parks, streets, rivers, and public spaces while promoting environmental stewardship.', '5th street and Maple', '04-11-2023'),

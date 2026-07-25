@@ -5,9 +5,16 @@
             <%= title %>
         </h1>
 
-        <h2>
-            <%= organizationDetails.name %>
-        </h2>
+        <div class="org-header">
+        <% if (organizationDetails.logo_filename) { %>
+            <img src="/images/<%= organizationDetails.logo_filename %>" alt="<%= organizationDetails.name %> logo"
+                class="org-logo">
+        <% } %>
+
+            <h2>
+                <%= organizationDetails.name %>
+            </h2>
+        </div>
 
         <p>
             <strong>Description:</strong>
