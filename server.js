@@ -3,9 +3,13 @@ import { fileURLToPath } from 'url';
 import path from 'path';
 import { testConnection } from './src/models/db.js';
 import router from './src/routes.js';
+import session from 'express-session';
+import flash from './src/middleware/flash.js';
 
 // Define the application environment
 const NODE_ENV = process.env.NODE_ENV?.toLowerCase() || 'production';
+
+const SESSION_SECRET = process.env.SESSION_SECRET;
 
 // Define the port number the server will listen on
 const PORT = process.env.PORT || 3000;
@@ -35,7 +39,16 @@ app.set('view engine', 'ejs');
 // Tell Express where to find your templates
 app.set('views', path.join(__dirname, 'src/views'));
 
+// Set up session management
+app.use(session({
+    secret: SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true,
+    cookie: { maxAge: 60 * 60 * 1000 } // Session expires after 1 hour of inactivity
+}));
 
+// Use flash message middleware
+app.use(flash);
 
 // Middleware to log all incoming requests
 app.use((req, res, next) => {

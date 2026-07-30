@@ -1,0 +1,23 @@
+<% if (typeof flash !== 'undefined' && flash) { %>
+    <% const all = typeof flash === 'function' ? flash() : flash; %>
+    <% if (all.success && all.success.length) { %>
+        <div class="flash flash-success">
+            <span class="flash-icon">&#10004;</span> <%= all.success.join(' ') %>
+        </div>
+    <% } %>
+    <% if (all.error && all.error.length) { %>
+        <div class="flash flash-error">
+            <span class="flash-icon">&#10006;</span> <%= all.error.join(' ') %>
+        </div>
+    <% } %>
+    <% if (all.warning && all.warning.length) { %>
+        <div class="flash flash-warning">
+            <span class="flash-icon">&#9888;</span> <%= all.warning.join(' ') %>
+        </div>
+    <% } %>
+    <% if (all.info && all.info.length) { %>
+        <div class="flash flash-info">
+            <span class="flash-icon">&#8505;</span> <%= all.info.join(' ') %>
+        </div>
+    <% } %>
+<% } %>
