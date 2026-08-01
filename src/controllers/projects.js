@@ -111,7 +111,7 @@ const showEditProjectForm = async (req, res) => {
     const project = await getProjectDetails(projectId);
     const organizations = await getAllOrganizations();
 
-    res.render('update-project', {
+    res.render('edit-project', {
         title: 'Edit Service Project',
         project,
         organizations
@@ -126,7 +126,7 @@ const processEditProjectForm = async (req, res) => {
         results.array().forEach((error) => {
             req.flash('error', error.msg);
         });
-        return res.redirect(`/update-project/${projectId}`);
+        return res.redirect(`/edit-project/${projectId}`);
     }
 
     const { title, description, location, date, organizationId } = req.body;

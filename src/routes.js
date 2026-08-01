@@ -13,6 +13,7 @@ import {
 } from './controllers/organizations.js';
 import { projectValidation } from './controllers/projects.js';
 import { testErrorPage } from './controllers/errors.js';
+import { showUserRegistrationForm, processUserRegistrationForm, userValidation, showLoginForm, processLoginForm, processLogout } from './controllers/users.js';
 
 const router = express.Router();
 
@@ -72,5 +73,14 @@ router.post('/edit-project/:id', projectValidation, processEditProjectForm);
 // Routes to handle assign categories to project
 router.get('/assign-categories/:projectId', showAssignCategoriesForm);
 router.post('/assign-categories/:projectId', processAssignCategoriesForm);
+
+// User registration routes
+router.get('/register', showUserRegistrationForm);
+router.post('/register', userValidation, processUserRegistrationForm);
+
+// User login routes
+router.get('/login', showLoginForm);
+router.post('/login', processLoginForm);
+router.get('/logout', processLogout);
 
 export default router;
